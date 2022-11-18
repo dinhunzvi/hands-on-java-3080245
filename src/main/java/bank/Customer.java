@@ -5,7 +5,7 @@ public class Customer {
   private String name;
   private String username;
   private String password;
-  private int accountId;
+  private int account_id;
 
   public Customer( int id, String name, String username, String password, int accountId) {
     setId( id );
@@ -48,11 +48,11 @@ public class Customer {
   }
 
   public int getAccountId() {
-    return accountId;
+    return account_id;
   }
 
   public void setAccountId(int accountId) {
-    this.accountId = accountId;
+    this.account_id = accountId;
   }
 
   
