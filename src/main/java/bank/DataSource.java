@@ -14,7 +14,6 @@ public class DataSource {
     
     try {
       connection = DriverManager.getConnection( db_file );
-      System.out.println( "We are connected" );
     } catch ( SQLException e) {
       e.printStackTrace();
     }
@@ -49,8 +48,35 @@ public class DataSource {
 
   }
 
+  public static Account getAccount( int accoutnId) {
+    String sql = "select * from accounts where ID = ?";
+    Account account = null;
+
+    try (Connection connection = connect(); 
+      PreparedStatement statement = connection.prepareStatement(sql) ) {
+      
+        statement.setInt(1, accoutnId);
+
+        try ( ResultSet resultSet = statement.executeQuery()) {
+          
+          account = new Account(
+            resultSet.getInt( "id"), 
+            resultSet.getString( "type"), 
+            resultSet.getDouble("balance" ));
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return account;
+
+  }
+
   public static void main( String args[]) {
     Customer customer = getCustomer( "hnegal76@umn.edu");
-    System.out.println( customer.getName() );
+    Account account = getAccount(customer.getAccountId());
+    System.out.println( account.getBalance() );
   }
 }
